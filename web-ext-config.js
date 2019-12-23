@@ -1,20 +1,25 @@
-const pkgJson = require('./package.json')
+const pkgJson = require('./pakage.json')
+const projectJson = require('./.config/project.json')
 
-const ExtensionName = pkgJson.name ||'basexer'
-var pkgPathName = ExtensionName
-
-if(pkgJson.version && pkgJson.version.split('.').length>0){
-  pkgPathName = pkgPathName + '_' + pkgJson.version.split('.').join('_')
+const B_TARGET = process.env.BUILD_TARGET ||'firefox'
+console.log(B_TARGET)
+const verSuffix = pkgJson.version && pkgJson.version.split('.').length>0 ? pkgJson.version.split('.').join('_') : "1"
+const SubPathName = `${pkgJson.name}_${verSuffix}_${B_TARGET}`
+const Path = {
+  artifactsDir:`${projectJson.BUILD}/${SubPathName}`
 }
 
-module.exports = {
-  verbose: true,
-  build: {
-    overwriteDest: true
-  },
-  run: {
 
+var WebExtCfg = {
+  verbose:true,
+  sourceDir:`${projectJson.BUILD}/${SubPathName}`,
+  artifactsDir:`${projectJson.DEST}/${B_TARGET}`,
+  build:{
+    overwriteDest:true
   },
-  artifactsDir:"dist/firefox",
-  sourceDir: `build/${pkgPathName}_firefox`
+  run:{
+    target:""
+  }
 }
+
+module.exports = WebExtCfg

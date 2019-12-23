@@ -1,0 +1,18 @@
+{
+  "addons":{
+    "nbstech988@gmail.com":{
+      "updates":[
+        {
+          "version":"0.1.0",
+          "applications":{
+            "gecko":{
+              "strict_min_version":"68"
+            }
+          },
+          "update_hash":"sha256:",
+          "update_link":"https://github.com/BASChain/httpb-plugin/releases/download/v0.0.1/xxx.xpi"
+        }
+      ]
+    }
+  }
+}

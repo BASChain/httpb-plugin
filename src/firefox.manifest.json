@@ -2,7 +2,8 @@
   "applications":{
     "gecko":{
       "id":"nbetech988@gmail.com",
-      "strict_min_version":"68.0"
+      "strict_min_version":"68.0",
+      "update_url":"http://bas.ppn.one/updates.json"
     }
   },
   "permissions": [

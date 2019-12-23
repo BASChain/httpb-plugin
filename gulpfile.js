@@ -18,6 +18,8 @@ const gulp = require('gulp'),
   merge = require('gulp-merge-json'),
   endOfStream = require('end-of-stream')
 
+//WebExt
+const webExt =require('web-ext').default
 
 const livereloadJson = require('./.config/gulplivereload.json')
 const projectJson = require('./.config/project.json')
@@ -261,6 +263,24 @@ function scssTask(){
     .pipe(gulp.dest(comboTargetBuild()));
 }
 
+
+//webext build sign
+// exports.webextfox =async function BuildFirefoxDestop(){
+//   return gulp.task('webext:fox',function(){
+//     webExt.cmd.build({
+//       overwriteDest: true,
+//       sourceDir:`${gulpPaths.BUILD}/${packagePathName}_${target}`,
+//       artifactsDir:`${gulpPaths.DEST}/${target}`
+//     },{
+//       shouldExitProgram: false
+//     }).then((extensionRunner) =>{
+//       console.log(extensionRunner);
+//     })
+//   })
+// }
+
+
+
 gulp.task('clean',function(){
   return del(`${gulpPaths.BUILD}/`)
 })
@@ -277,6 +297,7 @@ gulp.task('dev:extension',
 
 //{ start: true }
 //"dev:reload"
+
 
 
 exports.style = scssTask;

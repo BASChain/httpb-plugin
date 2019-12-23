@@ -1,6 +1,6 @@
 {
   "name": "basexer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The Blockchain Address service",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,10 @@
     "start": "run-s gulp-dev dev:fox",
     "start-chrome": "run-s gulp-dev dev:chrome",
     "dev:fox":"env-cmd -e fox -r ./.config/.env-cmdrc web-ext run --browser-console --browser-console",
-    "dev:chrome": "env-cmd -e fox -r ./.config/.env-cmdrc web-ext run -t chromium --browser-console",
+    "dev:chrome": "env-cmd -e chrome -r ./.config/.env-cmdrc web-ext run -t chromium --browser-console",
+    "zip:fox":"env-cmd -e fox -r ./.config/.env-cmdrc web-ext build -c ./web-ext-config.js",
+    "sign:fox":"run-s gulp-dev sign-firefox",
+    "sign-firefox":"env-cmd -e fox -r ./.config/.env-cmdrc web-ext sign --api-key=user:15509732:886 --api-secret=a6f947da06ad89d0fc24142bc300d4b281c65cd69c3cbed5f33f32b4108e82e0",
     "gulp-dev":"gulp dev:extension --max_old_space_size=1024",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp-view": "gulp --tasks"

@@ -1,0 +1,48 @@
+
+body {
+  width:180px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+h1,h3 {
+  margin-top:4px;
+  font-size:22px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+h1 span {
+  position: relative;
+  top:1px;
+  font-size:38px;
+}
+
+button {
+  display:block;
+  width:90%;
+  margin:5px auto !important;
+}
+
+.disabled {
+  margin-top:-16px;
+  color:red;
+  height:13px;
+  font-size:12px;
+}
+
+label {
+    display:block;
+    width:85%;
+    text-align:left;
+    margin:6px auto;
+    font-size:12px !important;
+}
+
+/* Firefox only */
+@supports (-moz-appearance:none) {
+    label input {
+        position: relative;
+        top:1px;
+    }
+}

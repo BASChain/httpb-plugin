@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/popup.css">
+  <script src="vendor/angular.min.js"></script>
+  <script src="js/popup.js"></script>
+</head>
+<body ng-app="popupOptsApp" ng-controller="PopupCtrl">
+  <h3>Basexer</h3>
+  <div class="disabled">
+    <span ng-show="disabled">Disabled</span>
+  </div>
+  <button ng-click="toggleDisabled()">{{disabled ? 'Enable BAS' : 'Disable BAS'}}</button>
+
+  <label>
+    <input type="checkbox" ng-model="logging" ng-click="toggleLogging()">
+    Enable logging
+  </label>
+  <label>
+    <input type="checkbox" ng-model="enableNotifications" ng-click="toggleNotifications()">
+    Enable notifications
+  </label>
+</body>
+</html>

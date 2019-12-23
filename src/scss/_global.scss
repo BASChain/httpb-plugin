@@ -1,0 +1,16 @@
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  background: $ltGray;
+
+  @media #{$mq-1000-up} {
+    padding: 1.5rem;
+  }
+}

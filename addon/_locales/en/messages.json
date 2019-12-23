@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "Basexer",
+    "decription":"The popup title when user hover on Browser Action button"
+  },
+  "appShortName": {
+    "message": "BAS",
+    "decription":"The popup title when user hover on Browser Action button"
+  },
+  "appDescription":{
+    "message":"The Blockchain Address Lookup Service",
+    "description":"the app description"
+  }
+}

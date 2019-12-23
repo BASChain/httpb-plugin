@@ -10,7 +10,7 @@
     "build": "npm run gulp-dev",
     "start": "run-s gulp-dev dev:fox",
     "start-chrome": "run-s gulp-dev dev:chrome",
-    "dev:fox":"env-cmd -e fox -r ./.config/.env-cmdrc web-ext run --browser-console --browser-console",
+    "dev:fox":"env-cmd -e runargs,fox -r ./.config/.env-cmdrc web-ext run -c ./.config/webext-config.js",
     "dev:chrome": "env-cmd -e chrome -r ./.config/.env-cmdrc web-ext run -t chromium --browser-console",
     "zip:fox":"env-cmd -e fox -r ./.config/.env-cmdrc web-ext build -c ./web-ext-config.js",
     "sign:fox":"run-s gulp-dev sign-firefox",

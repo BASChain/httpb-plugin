@@ -18,8 +18,6 @@ const gulp = require('gulp'),
   merge = require('gulp-merge-json'),
   endOfStream = require('end-of-stream')
 
-//WebExt
-const webExt =require('web-ext').default
 
 const livereloadJson = require('./.config/gulplivereload.json')
 const projectJson = require('./.config/project.json')
@@ -34,7 +32,7 @@ const gulpPaths = Object.assign({
 
 const browserPlatforms = [
   'firefox',
-  'chrome',
+  'chromium',
 ]
 
 const commonPlatforms = [

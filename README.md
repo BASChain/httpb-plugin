@@ -12,7 +12,8 @@
 
 ### Download Basexer Extension for firefox 
 
-![firefox addon](/docs/images/firefox.png){:height="32" width="32"}![](https://github.com/BASChain/httpb-plugin/releases/latest) click to downloads
+<img src="https://github.com/BASChain/httpb-plugin/blob/master/docs/images/firefox.png" alt="firefox addon" width="32" height="32">
+![](https://github.com/BASChain/httpb-plugin/releases/latest) click to downloads
 
 ###  Install add-on from the *.xpi
 

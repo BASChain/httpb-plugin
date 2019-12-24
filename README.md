@@ -11,9 +11,11 @@
 ## Firefox Browser Usage
 
 ### Download Basexer Extension for firefox 
-
+<a href="https://github.com/BASChain/httpb-plugin/releases/latest" target="Httpb Plugin Latest">
 <img src="https://github.com/BASChain/httpb-plugin/blob/master/docs/images/firefox.png" alt="firefox addon" width="32" height="32">
-![](https://github.com/BASChain/httpb-plugin/releases/latest) click to downloads
+  click to downloads
+</a>
+
 
 ###  Install add-on from the *.xpi
 

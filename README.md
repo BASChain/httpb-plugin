@@ -12,7 +12,7 @@
 
 ### Download Basexer Extension for firefox 
 
-[![GitHub All Releases](https://img.shields.io/github/downloads/BASChain/httpb-plugin/total?color=%23cc33ff&label=Download&style=for-the-badge)](https://github.com/BASChain/httpb-plugin/releases/latest) click to downloads
+![firefox addon](/docs/images/firefox.png){:height="32" width="32"}![](https://github.com/BASChain/httpb-plugin/releases/latest) click to downloads
 
 ###  Install add-on from the *.xpi
 

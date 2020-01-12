@@ -107,3 +107,4 @@ dist
 build
 .config/*.pem
 .config/.env*
+yarn.lock

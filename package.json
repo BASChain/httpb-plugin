@@ -1,6 +1,6 @@
 {
   "name": "basexer",
-  "version": "0.1.1",
+  "version": "0.0.45",
   "description": "The Blockchain Address service",
   "main": "index.js",
   "directories": {

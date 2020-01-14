@@ -108,3 +108,4 @@ build
 .config/*.pem
 .config/.env*
 yarn.lock
+src/scripts/runtime/info.json

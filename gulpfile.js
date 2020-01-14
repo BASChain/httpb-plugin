@@ -52,12 +52,8 @@ if(envArgs.error){
 }
 
 // env checked end
-console.log('CurrentBuildMode:[',NodeEnv(),'],Version:[',ExtVersion(),']')
 
-var dateFormat = new DateFormat('YYDDDD')
-if(isPreRelease()){
-  dateFormat = new DateFormat('MMDDDD-HHmm')
-}
+
 
 const liveOpts = {
   port:36489
@@ -74,7 +70,61 @@ const gulpPaths = Object.assign({
 const browserPlatforms = [
   'firefox'
 ]
+/* ==================== Common Methods Defined ======================  */
+const ExtInfoFile = () =>{
+  return `${gulpPaths.CONFIG}/${gulpPaths.EXTFILE}`
+}
 
+const ExtInfoDest = () => {
+  return `${gulpPaths.SRC}/scripts/runtime/`
+}
+
+const NodeEnv = ()=> {
+  return process.env.NODE_ENV ||'development'
+}
+
+const GetTarget = () => {
+  return process.env.DEST_TARGET || 'firefox'
+}
+
+const GetAuthor = () => {
+  return process.env.EXT_AUTHOR || pkgJson.author || ''
+}
+
+const IsPreRelease = ()=>{
+  return NodeEnv() == 'development'
+}
+
+const IsDevMode = ()=>{
+  return NodeEnv() == 'development'
+}
+
+const ExtName = () => {
+  return process.env.EXT_NAME || pkgJson.name
+}
+
+const ExtVersion = () => {
+  return process.env.EXT_VER || pkgJson.version
+}
+
+const GetCopySrc = (subPaths) => {
+  return subPaths ? `${gulpPaths.APP}/${subPaths}/` : `${gulpPaths.APP}/`
+}
+
+const BuildTargets = (subPaths) => {
+  let destTargets = [...browserPlatforms]
+  return destTargets.map(target => subPaths ? `${gulpPaths.BUILD}/${target}/${subPaths}` : `${gulpPaths.BUILD}/${target}/`)
+}
+
+const TaskDefaultName = () => {
+  return 'set:extinfo'
+}
+
+var dateFormat = new DateFormat('YYDDDD')
+if(IsPreRelease()){
+  dateFormat = new DateFormat('MMDDDD-HHmm')
+}
+console.log('CurrentBuildMode:[',NodeEnv(),'],Version:[',ExtVersion(),']')
 /* ==================== Early Tasks Defined ======================  */
 gulp.task('clean',()=>{
   return del([`${gulpPaths.build}/*`])
@@ -87,13 +137,13 @@ gulp.task('dev:reload',()=>{
 /* ----------------- Edit ExtInfo ------------------------ */
 gulp.task('set:extinfo',() =>{
   const _src = ExtInfoFile()
-  const _dest = ExtInfoDest()
-
   return gulp.src(_src)
     .pipe(jsoneditor((json) =>{
-
+      //console.log(JSON.stringify(json));
+      return editExtInfo(json)
     }))
     .pipe(rename('info.json'))
+
     .pipe(gulp.dest(ExtInfoDest(),{overwrite:true}))
 })
 
@@ -103,6 +153,8 @@ function editExtInfo(json){
   }
   json.version = ExtVersion()
   json.buildTag = dateFormat.format(new Date())
+  if(GetAuthor())json.author = GetAuthor()
+  return json
 }
 /* ----------------- Edit ExtInfo ------------------------ */
 
@@ -144,7 +196,7 @@ createCopyTask('html',{
 })
 
 function createCopyTask(label,opts){
-  if(typeof opts.devMode === undefined)opts.devMode = isDevMode()
+  if(typeof opts.devMode === undefined)opts.devMode = IsDevMode()
   if(!opts.devOnly){
     const copyTaskName = `copy:${label}`
     copyTask(copyTaskName,opts)
@@ -193,53 +245,3 @@ function copyTask(taskName,opts){
 
 /* ==================== Latest Tasks Defined ======================  */
 gulp.task('default',gulp.series(TaskDefaultName()))
-
-
-const TaskDefaultName = () => {
-  return 'set:extinfo'
-}
-/* ==================== Common Methods Defined ======================  */
-const ExtInfoFile = () =>{
-  return `${gulpPaths.CONFIG}/${gulpPaths.EXTFILE}`
-}
-
-const ExtInfoDest = () => {
-  return `${gulpPaths.SRC}/scripts/runtime/`
-}
-
-const NodeEnv = ()=> {
-  return process.env.NODE_ENV ||'development'
-}
-
-const GetTarget = () => {
-  return process.env.DEST_TARGET || 'firefox'
-}
-
-const GetAuthor = () => {
-  return process.env.EXT_AUTHOR || pkgJson.author || ''
-}
-
-const isPreRelease = ()=>{
-  return NodeEnv() == 'development'
-}
-
-const isDevMode = ()=>{
-  return NodeEnv() == 'development'
-}
-
-const ExtName = () => {
-  return process.env.EXT_NAME || pkgJson.name
-}
-
-const ExtVersion = () => {
-  return process.env.EXT_VER || pkgJson.version
-}
-
-const GetCopySrc = (subPaths) => {
-  return subPaths ? `${gulpPaths.APP}/${subPaths}/` : `${gulpPaths.APP}/`
-}
-
-const BuildTargets = (subPaths) => {
-  let destTargets = [...browserPlatforms]
-  return destTargets.map(target => subPaths ? `${gulpPaths.BUILD}/${target}/${subPaths}` : `${gulpPaths.BUILD}/${target}/`)
-}

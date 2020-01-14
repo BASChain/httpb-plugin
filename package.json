@@ -16,7 +16,7 @@
     "sign:fox": "run-s gulp-dev sign-firefox",
     "sign-firefox": "env-cmd -e fox -r ./.config/.env-cmdrc web-ext sign --api-key=user:15509732:886 --api-secret=a6f947da06ad89d0fc24142bc300d4b281c65cd69c3cbed5f33f32b4108e82e0",
     "gulp-dev": "gulp dev:extension --max_old_space_size=1024",
-    "gulp-build":"cross-env NODE_ENV=production gulp build:extension --max_old_space_size=1024",
+    "gulp-build": "cross-env NODE_ENV=production gulp build:extension --max_old_space_size=1024",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp-view": "gulp --tasks"
   },
@@ -32,9 +32,12 @@
   "license": "MIT",
   "dependencies": {
     "jquery": "^3.4.1",
-    "web3": "^1.2.4"
+    "punycode": "^2.1.1",
+    "web3": "^1.2.4",
+    "webextension-polyfill": "^0.6.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.8.3",

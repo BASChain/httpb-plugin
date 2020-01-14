@@ -12,10 +12,11 @@
  */
 const Info = require('./info.json')
 const BrowerInfo = require('./check-runtime.js')
-const { createRuntimeInfo, hasChromeSocketsForTCP } = require('./check-utils.js')
+const { createRuntimeInfo, hasChromeSocketsForTCP,BindThisProperties } = require('./check-utils.js')
 module.exports = {
   Info,
   BrowerInfo,
+  BindThisProperties,
   createRuntimeInfo,
   hasChromeSocketsForTCP
 }

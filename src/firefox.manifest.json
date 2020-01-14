@@ -1,8 +1,8 @@
 {
   "applications":{
     "gecko":{
-      "id": "nbs-tim@gmail.com",
-      "update_url":"http://bas.ppn.one/updates.json"
+      "id":"nbetech988@gmail.com",
+      "strict_min_version":"68.0"
     }
   },
   "permissions": [

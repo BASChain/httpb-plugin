@@ -96,10 +96,6 @@ const IsPreRelease = ()=>{
   return NodeEnv() == 'development'
 }
 
-const IsDevMode = ()=>{
-  return NodeEnv() == 'development'
-}
-
 const ExtName = () => {
   return process.env.EXT_NAME || pkgJson.name
 }
@@ -117,8 +113,11 @@ const BuildTargets = (subPaths) => {
   return destTargets.map(target => subPaths ? `${gulpPaths.BUILD}/${target}/${subPaths}` : `${gulpPaths.BUILD}/${target}/`)
 }
 
-const ModuleJsSrc = (rootDir,name) => {
-  if(typeof rootDir !== 'string') rootDir = `${gulpPaths.SRC}/scripts`
+const ModuleJsSrc = (subpath,name) => {
+  let rootDir = gulpPaths.SRC
+  if(typeof subpath === 'string'){
+    rootDir = `${gulpPaths.SRC}/${subpath}`
+  }
   return `${rootDir}/${name}.js`
 }
 
@@ -134,9 +133,10 @@ gulp.task('clean',()=>{
   return del([`${gulpPaths.BUILD}/**`])
 })
 
-gulp.task('dev:reload',()=>{
+gulp.task('dev:reload',function() {
   livereload.listen(liveOpts)
 })
+
 
 /* ----------------- Edit ExtInfo ------------------------ */
 gulp.task('set:extinfo',() =>{
@@ -200,7 +200,7 @@ createCopyTask('html',{
 })
 
 function createCopyTask(label,opts){
-  if(typeof opts.devMode === undefined)opts.devMode = IsDevMode()
+  if(typeof opts.devMode === 'undefined')opts.devMode = isDevMode()
   if(!opts.devOnly){
     const copyTaskName = `copy:${label}`
     copyTask(copyTaskName,opts)
@@ -219,6 +219,8 @@ function copyTask(taskName,opts){
   const destinations = opts.destinations || [destination]
   const pattern = opts.pattern || '**/*'
   const devMode = opts.devMode
+
+
 
   return gulp.task(taskName,()=>{
     if(devMode){
@@ -256,21 +258,21 @@ const BuildJsModulesDestinations = browserPlatforms.map(target => `${gulpPaths.B
 createTasks4BuildJSModules({
   taskPrefix:"dev:modules:bundle",
   jsModules: BuildJsModules ,
-  devMode: IsDevMode(),
+  devMode: isDevMode(),
   destinations:BuildJsModulesDestinations
 })
 
 function createTasks4BuildJSModules({
   taskPrefix, jsModules, devMode, destinations, bundleTaskOpts = {}
 }) {
-  const rootDir = `${gulpPaths.SRC}/scripts`
+  const rootDir = `${gulpPaths.SRC}`
 
   bundleTaskOpts = Object.assign({
     devMode,
     sourceMapDir:'../sourcemaps',
-    watch:IsDevMode(),
-    buildSourceMaps:!IsDevMode(),
-    minifyBuild:!IsDevMode()
+    watch:isDevMode(),
+    buildSourceMaps:!isDevMode(),
+    minifyBuild:!isDevMode()
   },bundleTaskOpts)
 
   let subTasks = []
@@ -281,7 +283,7 @@ function createTasks4BuildJSModules({
     gulp.task(label,createTasks4Module(Object.assign({
       label:label,
       filename:`${modu}.js`,
-      filepath:ModuleJsSrc(rootDir,`${modu}.js`),
+      filepath:ModuleJsSrc('scripts',modu),
       destinations
     },bundleTaskOpts)))
 
@@ -296,12 +298,12 @@ function createTasks4Module(opts) {
   const suffix = getBundleSuffix(opts.devMode)
 
   let bundler
-
+  console.log('<<<<',JSON.stringify(opts,null,2))
   return performBundle
 
   function performBundle() {
     if(!bundler){
-      bundler = generateBrowserify(opts.devMode)
+      bundler = generateBrowserify(opts,performBundle)
       bundler.on('log',gutil.log)
     }
 
@@ -359,7 +361,7 @@ function generateBrowserify(opts,performBundle){
     plugin:[],
     transform:[],
     debug:opts.buildSourceMaps,
-    enteries:opts.filepath
+    entries:opts.filepath
   })
 
   let b = browserify(browerifyOpts)
@@ -371,14 +373,14 @@ function generateBrowserify(opts,performBundle){
   }),{
     global:true
   })
-
+  //console.log('>>>>>>>>>>>>>>>>>>',JSON.stringify(opts,null,2))
   if(opts.watch) {
     b = watchify(b)
 
     b.on('update',async (ids) => {
-
       const stream = performBundle()
       await endOfStream(stream)
+      console.log('changed',ids)
       livereload.changed(`${ids}`)
     })
   }
@@ -397,7 +399,7 @@ function createCopyMergeManifestTask(platforms) {
   //console.log('>>>>>>>>>>>>>>>>>>',targets)
   targets.map(target => {
     let opts = {
-      "devMode": IsDevMode()
+      "devMode": isDevMode()
     }
     opts.src = `${gulpPaths.SRC}/${target}.manifest.json`
     opts.dest = BuildTargets()
@@ -416,7 +418,7 @@ function createCopyMergeManifestTask(platforms) {
 
 function mergeManifestTask(taskName,opts) {
   const commonSrc = `${gulpPaths.SRC}/common.manifest.json`
-  let devMode = opts.devMode || IsDevMode()
+  let devMode = opts.devMode || isDevMode()
 
 
   return gulp.task(taskName,function () {
@@ -456,7 +458,7 @@ function ManifestEditor(json,target,devMode){
 
       return json
 /*    case 'chromium':
-      if(IsDevMode()) json.permissions = [...json.permissions,'developerPrivate']
+      if(isDevMode()) json.permissions = [...json.permissions,'developerPrivate']
       return json*/
     default:
       return json
@@ -467,6 +469,10 @@ function ManifestEditor(json,target,devMode){
 
 
 /* ==================== Latest Tasks Defined ======================  */
+gulp.task('watch',async function(){
+  livereload.listen(liveOpts)
+})
+
 gulp.task('dev:copy',
   gulp.series(gulp.parallel(...copyDevTasksNames))
 )
@@ -494,7 +500,7 @@ gulp.task('dev:extension',
       'dev:modules:bundle',
       'dev:copy'
     ),
-    'dev:reload'
+    'watch'
   )
 )
 
@@ -508,6 +514,10 @@ function getBundleSuffix(devMode){
 
 function TaskDefaultName() {
   return 'dev:extension'
+}
+
+function isDevMode(){
+  return NodeEnv() == 'development'
 }
 
 function beep() {

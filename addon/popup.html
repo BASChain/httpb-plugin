@@ -7,20 +7,11 @@
   <script src="vendor/angular.min.js"></script>
   <script src="js/popup.js"></script>
 </head>
-<body ng-app="popupOptsApp" ng-controller="PopupCtrl">
-  <h3>Basexer</h3>
-  <div class="disabled">
-    <span ng-show="disabled">Disabled</span>
+<body ng-app="popupApp" ng-controller="p3Ctrl">
+  <h3 >Basexer</h3>
+  <div class="">
+    <span>Version: </span><span>0.0.46</span>
   </div>
-  <button ng-click="toggleDisabled()">{{disabled ? 'Enable BAS' : 'Disable BAS'}}</button>
 
-  <label>
-    <input type="checkbox" ng-model="logging" ng-click="toggleLogging()">
-    Enable logging
-  </label>
-  <label>
-    <input type="checkbox" ng-model="enableNotifications" ng-click="toggleNotifications()">
-    Enable notifications
-  </label>
 </body>
 </html>

@@ -10,55 +10,27 @@
  * git@flash:BASChain/httpb-plugin.git
  *
  */
+'use strict'
+const BAS_MODE = "BAS"
+const DNS_MODE = "DNS"
 
-angular.module('popupOptsApp',[]).controller('PopupCtrl',['$scope',function($s) {
+angular.module('popupApp',[]).controller('p3Ctrl',['$scope',function($s){
   var storage = chrome.storage.local;
-  storage.set({disabled: true});
+  storage.set({"enable_bas":false})
+  $s.mode = BAS_MODE
 
-  storage.get({disabled:false},function(obj) {
-    console.log("get>>>>",obj);
-    $s.disabled = obj.disabled;
-    $s.$apply();
-  });
+  storage.get({"enable_bas":false},function(obj){
+    //console.log('mode',JSON.stringify(obj,null,2))
+    $s.mode = 'v0.0.4'
+    $s.$apply()
+  })
 
-  $s.toggleDisabled = function() {
-    console.log('set before',$s.disabled)
-    storage.get({disabled:false},function(obj) {
-      console.log('set after',obj)
-      storage.set({disabled: !obj.disabled});
-      $s.disabled = !obj.disabled;
+/*  $s.chanageMode = function(){
+    storage.get({"enable_bas":false},function(obj) {
+      storage.set({"enable_bas" : !obj["enable_bas"] })
+      $s.mode = (!obj["enable_bas"]) ? BAS_MODE : DNS_MODE
+      //console.log('>>>',$s.mode)
       $s.$apply();
-    });
-  }
-
-  console.log('init>>',$s.disabled)
-  $s.disabled = false
-  storage.get({logging:false},function(obj){
-    $s.logging = obj.logging;
-    $s.$apply();
-  });
-
-  $s.toggleLogging = function() {
-    storage.get({logging:false},function(obj){
-      storage.set({logging:!obj.logging});
-      $s.logging = !obj.logging;
-      $s.$apply();
-    });
-  }
-
-  $s.enableNotifications = false;
-
-  storage.get({enableNotifications:false},function(obj){
-    $s.enableNotifications = obj.enableNotifications;
-    $s.$apply();
-  });
-
-  $s.toggleNotifications = function() {
-    storage.get({enableNotifications:false},function(obj){
-      storage.set({enableNotifications: !obj.enableNotifications});
-      $s.enableNotifications = !obj.enableNotifications;
-      $s.apply();
-    });
-  }
-
+    })
+  }*/
 }]);

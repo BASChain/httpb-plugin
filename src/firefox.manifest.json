@@ -1,7 +1,7 @@
 {
   "applications":{
     "gecko":{
-
+      "id": "nbs-tim@gmail.com",
       "update_url":"http://bas.ppn.one/updates.json"
     }
   },

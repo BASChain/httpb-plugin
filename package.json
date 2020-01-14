@@ -1,6 +1,6 @@
 {
   "name": "basexer",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "The Blockchain Address service",
   "main": "index.js",
   "directories": {
@@ -10,7 +10,7 @@
     "build": "npm run gulp-dev",
     "start": "run-s gulp-dev dev:fox",
     "start-chrome": "run-s gulp-dev dev:chrome",
-    "dev:fox": "env-cmd -e comm,runargs -r ./.config/.env-cmdrc web-ext run -c ./.config/web-ext-config.js",
+    "ext": "web-ext run -f ",
     "dev:chrome": "env-cmd -e comm,runargs,chrome -r ./.config/.env-cmdrc web-ext run ",
     "zip:fox": "env-cmd -e fox -r ./.config/.env-cmdrc web-ext build -c ./web-ext-config.js",
     "sign:fox": "run-s gulp-dev sign-firefox",

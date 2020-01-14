@@ -445,7 +445,7 @@ function ManifestEditor(json,target,devMode){
 
   if(libs.length){
     if(!json.background) json.background = {}
-    //if(json.background.page) delete json.background.page
+    if(json.background.page) delete json.background.page
 
     json.background.scripts =
       json.background.scripts ? [...libs,...json.background.scripts] : [...libs]

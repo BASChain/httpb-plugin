@@ -1,21 +1,63 @@
-const path = pkgJson = require('./package.json'),
-  projectJson = require('./.config/project.json')
+const pkgJson = require('./package.json'),
+  projectJson = require('./.config/project.json'),
+  DateFormat = require('fast-date-format'),
+  dotenv = require('dotenv'),
+  path = require('path')
 
-const NAME = process.env.PUB_NAME || pkgJson.name || "basexer"
+const envArgs = dotenv.config({
+  path:path.resolve(process.cwd(),'.config/.env'),
+  encoding:'utf8'
+})
+
+if(envArgs.error){
+  throw envArgs.error
+}
+
+const gulpPaths = Object.assign({
+  APP:'addon',
+  BUILD:'build',
+  DEST:'dist',
+  CONFIG:'.config',
+  EXTFILE:'version-info.json'
+},projectJson)
 
 const verSuffix = pkgJson.version && pkgJson.version.split('.').length>0 ? pkgJson.version.split('.').join('_') : "1_0_0"
 const BROWSER_TARGET = process.env.DEST_TARGET ||'firefox'
-console.log(NAME,'>>>',BROWSER_TARGET)
+
+const SourceDir = (target) => {
+  return `${gulpPaths.BUILD}/${target}`
+}
+
+const ArtifactsDir = (target) => {
+  return `${gulpPaths.DEST}/${target}`
+}
+
+const Target = getTarget()
+
 const WebExtConfig = {
   verbose:true,
-  sourceDir:`${projectJson.BUILD}/${NAME}_${verSuffix}_${BROWSER_TARGET}`,
-  artifactsDir:`${projectJson.DEST}/${BROWSER_TARGET}`,
+  sourceDir:`${gulpPaths.BUILD}/${Target}`,
+  artifactsDir:`${gulpPaths.DEST}/${Target}`,
   run:{
-    browserConsole:true
+
   },
   build:{
     overwriteDest: true
   }
+}
+
+
+
+function getExtName(){
+  return process.env.EXT_NAME || pkgJson.name ||"basexer"
+}
+
+function getTarget(){
+  return process.env.DEST_TARGET || 'firefox'
+}
+
+function getExtVersion(){
+  return process.env.EXT_VER || pkgJson.version
 }
 
 module.exports = WebExtConfig

@@ -70,7 +70,8 @@ const gulpPaths = Object.assign({
 const browserPlatforms = [
   'firefox'
 ]
-/* ==================== Common Methods Defined ======================  */
+const commonPlatforms = [...browserPlatforms]
+/* ==================== Common Contants Defined ======================  */
 const ExtInfoFile = () =>{
   return `${gulpPaths.CONFIG}/${gulpPaths.EXTFILE}`
 }
@@ -116,9 +117,12 @@ const BuildTargets = (subPaths) => {
   return destTargets.map(target => subPaths ? `${gulpPaths.BUILD}/${target}/${subPaths}` : `${gulpPaths.BUILD}/${target}/`)
 }
 
-const TaskDefaultName = () => {
-  return 'set:extinfo'
+const ModuleJsSrc = (rootDir,name) => {
+  if(typeof rootDir !== 'string') rootDir = `${gulpPaths.SRC}/scripts`
+  return `${rootDir}/${name}.js`
 }
+
+
 
 var dateFormat = new DateFormat('YYDDDD')
 if(IsPreRelease()){
@@ -127,7 +131,7 @@ if(IsPreRelease()){
 console.log('CurrentBuildMode:[',NodeEnv(),'],Version:[',ExtVersion(),']')
 /* ==================== Early Tasks Defined ======================  */
 gulp.task('clean',()=>{
-  return del([`${gulpPaths.build}/*`])
+  return del([`${gulpPaths.BUILD}/**`])
 })
 
 gulp.task('dev:reload',()=>{
@@ -156,7 +160,7 @@ function editExtInfo(json){
   if(GetAuthor())json.author = GetAuthor()
   return json
 }
-/* ----------------- Edit ExtInfo ------------------------ */
+/* ----------------- Edit ExtInfo END ------------------------ */
 
 
 //Copy Tasks Begin
@@ -240,8 +244,272 @@ function copyTask(taskName,opts){
 }
 
 //Copy Tasks Begin
+/* ------------------------ Bundle JS Begin ------------------------- */
+const BuildJsModules = [
+  'bglib',
+  'p3lib'
+]
 
+const BuildJsModulesDestinations = browserPlatforms.map(target => `${gulpPaths.BUILD}/${target}/bundles`)
+
+
+createTasks4BuildJSModules({
+  taskPrefix:"dev:modules:bundle",
+  jsModules: BuildJsModules ,
+  devMode: IsDevMode(),
+  destinations:BuildJsModulesDestinations
+})
+
+function createTasks4BuildJSModules({
+  taskPrefix, jsModules, devMode, destinations, bundleTaskOpts = {}
+}) {
+  const rootDir = `${gulpPaths.SRC}/scripts`
+
+  bundleTaskOpts = Object.assign({
+    devMode,
+    sourceMapDir:'../sourcemaps',
+    watch:IsDevMode(),
+    buildSourceMaps:!IsDevMode(),
+    minifyBuild:!IsDevMode()
+  },bundleTaskOpts)
+
+  let subTasks = []
+
+  BuildJsModules.forEach((modu) => {
+    const label = `${taskPrefix}:${modu}`
+
+    gulp.task(label,createTasks4Module(Object.assign({
+      label:label,
+      filename:`${modu}.js`,
+      filepath:ModuleJsSrc(rootDir,`${modu}.js`),
+      destinations
+    },bundleTaskOpts)))
+
+    subTasks.push(label)
+  })
+
+  gulp.task(taskPrefix,gulp.parallel(...subTasks))
+}
+
+
+function createTasks4Module(opts) {
+  const suffix = getBundleSuffix(opts.devMode)
+
+  let bundler
+
+  return performBundle
+
+  function performBundle() {
+    if(!bundler){
+      bundler = generateBrowserify(opts.devMode)
+      bundler.on('log',gutil.log)
+    }
+
+    let buildStream = bundler.bundle()
+
+    buildStream.on('error',(err) => {
+      beep()
+      if(opts.watch) {
+        console.warn(err.stack)
+      }else{
+        throw err
+      }
+    })
+
+    buildStream = buildStream
+      .pipe(source(opts.filename))
+      .pipe(buffer())
+
+    if(opts.buildSourceMaps){
+      buildStream = buildStream
+        .pipe(sourcemaps.init({loadMaps:true}))
+    }
+
+    if(opts.minifyBuild){
+      buildStream = buildStream
+        .pipe(terser({
+          mangle:{
+            reserved:['BAS','Basxer']
+          }
+        }))
+    }
+
+    buildStream = buildStream
+      .pipe(rename({extname:suffix}))
+
+    if(opts.buildSourceMaps) {
+      if(opts.devMode) {
+        buildStream = buildStream.pipe(sourcemaps.write())
+      }else{
+        buildStream = buildStream
+          .pipe(sourcemaps.write(opts.sourceMapDir))
+      }
+    }
+
+    opts.destinations.forEach( (dest) => {
+      buildStream = buildStream.pipe(gulp.dest(dest))
+    })
+
+    return buildStream
+  }
+}
+
+function generateBrowserify(opts,performBundle){
+  const browerifyOpts = assign({},watchify.args,{
+    plugin:[],
+    transform:[],
+    debug:opts.buildSourceMaps,
+    enteries:opts.filepath
+  })
+
+  let b = browserify(browerifyOpts)
+    .transform('babelify')
+    .transform('brfs')
+
+  b.transform(envify({
+    NODE_ENV:NodeEnv()
+  }),{
+    global:true
+  })
+
+  if(opts.watch) {
+    b = watchify(b)
+
+    b.on('update',async (ids) => {
+
+      const stream = performBundle()
+      await endOfStream(stream)
+      livereload.changed(`${ids}`)
+    })
+  }
+
+  return b
+}
+
+/* ------------------------ Bundle JS End ------------------------- */
+/* ------------------------ Mainfest Begin ------------------------- */
+
+createCopyMergeManifestTask(commonPlatforms);
+
+function createCopyMergeManifestTask(platforms) {
+
+  const targets = platforms || commonPlatforms
+  //console.log('>>>>>>>>>>>>>>>>>>',targets)
+  targets.map(target => {
+    let opts = {
+      "devMode": IsDevMode()
+    }
+    opts.src = `${gulpPaths.SRC}/${target}.manifest.json`
+    opts.dest = BuildTargets()
+    opts.target = target
+
+    const label =  `manifest:merge:${target}`
+    copyTasksNames.push(label)
+    mergeManifestTask(label,opts);
+
+    const devLabel =  `dev:manifest:merge:${target}`
+    copyDevTasksNames.push(devLabel)
+    mergeManifestTask(devLabel,opts);
+
+  })
+}
+
+function mergeManifestTask(taskName,opts) {
+  const commonSrc = `${gulpPaths.SRC}/common.manifest.json`
+  let devMode = opts.devMode || IsDevMode()
+
+
+  return gulp.task(taskName,function () {
+    return gulp.src([
+      commonSrc,
+      opts.src
+    ])
+    .pipe(merge())
+    .pipe(rename('manifest.json'))
+    .pipe(jsoneditor((json) => {
+      json = ManifestEditor(json,opts.target,devMode)
+      return json
+    }))
+    .pipe(gulp.dest(opts.dest,{overwrite:true}))
+  })
+}
+
+function ManifestEditor(json,target,devMode){
+  json.version = ExtVersion()
+  if(GetAuthor())json.author = GetAuthor()
+
+  const suffix = getBundleSuffix(devMode)
+  const libs = BuildJsModules
+    .filter(name => /^bg.*$/g.test(name))
+    .map(filename => `bundles/${filename}${suffix}`)
+
+  if(libs.length){
+    if(!json.background) json.background = {}
+    //if(json.background.page) delete json.background.page
+
+    json.background.scripts =
+      json.background.scripts ? [...libs,...json.background.scripts] : [...libs]
+  }
+
+  switch (target) {
+    case 'firefox':
+
+      return json
+/*    case 'chromium':
+      if(IsDevMode()) json.permissions = [...json.permissions,'developerPrivate']
+      return json*/
+    default:
+      return json
+  }
+
+}
+/* ------------------------ Mainfest End ------------------------- */
 
 
 /* ==================== Latest Tasks Defined ======================  */
+gulp.task('dev:copy',
+  gulp.series(gulp.parallel(...copyDevTasksNames))
+)
+
+gulp.task('copy',
+  gulp.series(gulp.parallel(...copyTasksNames))
+)
+
+gulp.task('build:extension',
+  gulp.series(
+    'clean',
+    'set:extinfo',
+    gulp.parallel(
+      'dev:modules:bundle',
+      'copy'
+    )
+  )
+)
+
+gulp.task('dev:extension',
+  gulp.series(
+    'clean',
+    'set:extinfo',
+    gulp.parallel(
+      'dev:modules:bundle',
+      'dev:copy'
+    ),
+    'dev:reload'
+  )
+)
+
 gulp.task('default',gulp.series(TaskDefaultName()))
+
+
+/* ------------------------ Common functions ------------------------- */
+function getBundleSuffix(devMode){
+  return devMode ? '-bundle.js' : '.min.js'
+}
+
+function TaskDefaultName() {
+  return 'dev:extension'
+}
+
+function beep() {
+  process.stdout.write('\x07')
+}

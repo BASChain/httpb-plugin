@@ -1,14 +1,14 @@
 {
   "appName": {
     "message": "Basexer",
-    "decription":"The popup title when user hover on Browser Action button"
+    "description": "BAS Extension name"
   },
   "appShortName": {
     "message": "BAS",
-    "decription":"The popup title when user hover on Browser Action button"
+    "description": "BAS"
   },
-  "appDescription":{
-    "message":"The Blockchain Address Lookup Service",
-    "description":"the app description"
+  "appDescription": {
+    "message": "Blockchain Addresss Alias Refferer",
+    "description": "Blockchain Addresss Alias Refferer"
   }
 }

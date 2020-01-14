@@ -7,12 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "npm run gulp-dev",
-    "start": "run-s gulp-dev dev:fox",
+    "build": "npm run gulp-build",
+    "start": "run-s gulp-dev",
     "start-chrome": "run-s gulp-dev dev:chrome",
     "ext": "web-ext run -f ",
-    "dev:chrome": "env-cmd -e comm,runargs,chrome -r ./.config/.env-cmdrc web-ext run ",
-    "zip:fox": "env-cmd -e fox -r ./.config/.env-cmdrc web-ext build -c ./web-ext-config.js",
+    "ext-build": "web-ext build",
+    "zip:fox": "run-s gulp-build ext-build",
     "sign:fox": "run-s gulp-dev sign-firefox",
     "sign-firefox": "env-cmd -e fox -r ./.config/.env-cmdrc web-ext sign --api-key=user:15509732:886 --api-secret=a6f947da06ad89d0fc24142bc300d4b281c65cd69c3cbed5f33f32b4108e82e0",
     "gulp-dev": "gulp dev:extension --max_old_space_size=1024",

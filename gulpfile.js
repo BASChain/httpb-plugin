@@ -298,7 +298,7 @@ function createTasks4Module(opts) {
   const suffix = getBundleSuffix(opts.devMode)
 
   let bundler
-  console.log('<<<<',JSON.stringify(opts,null,2))
+  //console.log('<<<<',JSON.stringify(opts,null,2))
   return performBundle
 
   function performBundle() {

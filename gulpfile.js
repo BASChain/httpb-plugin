@@ -455,7 +455,9 @@ function ManifestEditor(json,target,devMode){
 
   switch (target) {
     case 'firefox':
-
+      if(getAMOID() && json.applications && json.applications.gecko){
+        json.applications.gecko.id = getAMOID()
+      }
       return json
 /*    case 'chromium':
       if(isDevMode()) json.permissions = [...json.permissions,'developerPrivate']
@@ -518,6 +520,10 @@ function TaskDefaultName() {
 
 function isDevMode(){
   return NodeEnv() == 'development'
+}
+
+function getAMOID() {
+  return process.env.AMO_ID ||''
 }
 
 function beep() {

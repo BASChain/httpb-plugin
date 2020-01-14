@@ -1,7 +1,0 @@
-{
-  "livereloadOpts":{
-    "port":35729,
-    "host":"localhost",
-    "quiet":true
-  }
-}

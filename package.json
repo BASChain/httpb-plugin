@@ -8,9 +8,11 @@
   },
   "scripts": {
     "build": "npm run gulp-build",
-    "start": "run-s gulp-dev",
+    "start": "web-ext run -f",
     "start-chrome": "run-s gulp-dev dev:chrome",
     "ext": "web-ext run -f ",
+    "lint": "run-s gulp-build ",
+    "ext-lint":"npx web-ext lint",
     "ext-build": "web-ext build",
     "zip:fox": "run-s gulp-build ext-build",
     "sign:fox": "run-s gulp-dev sign-firefox",

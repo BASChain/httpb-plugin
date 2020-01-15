@@ -187,7 +187,10 @@ createCopyTask('css',{
   source:GetCopySrc('css'),
   destinations:BuildTargets('css')
 })
-
+createCopyTask('js',{
+  source:GetCopySrc('js'),
+  destinations:BuildTargets('js')
+})
 createCopyTask('vendor',{
   source:GetCopySrc('vendor'),
   destinations:BuildTargets('vendor')
@@ -468,6 +471,10 @@ function ManifestEditor(json,target,devMode){
 
 }
 /* ------------------------ Mainfest End ------------------------- */
+
+function zipSourceFirefox(){
+
+}
 
 
 /* ==================== Latest Tasks Defined ======================  */

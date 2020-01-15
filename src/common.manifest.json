@@ -12,7 +12,6 @@
     "64":"icons/png/bas-active-64.png",
     "128":"icons/png/bas-active-128.png"
   },
-  "omnibox":{"keyword":"omnix"},
   "background": {
     "page":"background.html"
   },

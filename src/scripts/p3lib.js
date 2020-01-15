@@ -1,5 +1,6 @@
 //const Web3 = require('web3')
 const browser = require('webextension-polyfill')
+global.$ = global.jQuery = require('jquery')
 
 const { Info , BrowerInfo , BindThisProperties } = require('./runtime')
 
@@ -12,4 +13,4 @@ class P3Ctx {
   }
 }
 
-global.P3Ctx = window.P3Ctx = new P3Ctx(browser);
+global.pInst = 'oooo'

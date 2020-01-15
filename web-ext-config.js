@@ -36,6 +36,10 @@ const ArtifactsDir = (target) => {
 const Target = getTarget()
 
 const WebExtConfig = {
+  ignoreFiles: [
+    'package-lock.json',
+    'yarn.lock',
+  ],
   verbose:true,
   sourceDir:`${gulpPaths.BUILD}/${Target}`,
   artifactsDir:`${gulpPaths.DEST}/${Target}`,

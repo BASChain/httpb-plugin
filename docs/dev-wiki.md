@@ -1,5 +1,9 @@
 # Development WIKI
 
+> branch[develop] :development version
+
+> branch[master] : distribution version 
+
 ## Usage
 
 

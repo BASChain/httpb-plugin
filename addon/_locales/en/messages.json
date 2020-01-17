@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "Basexer",
+    "message": "BAS",
     "description": "BAS Extension name"
   },
   "appShortName": {
@@ -8,7 +8,7 @@
     "description": "BAS"
   },
   "appDescription": {
-    "message": "A browser plugin based on the blockchain domain name addressing system",
+    "message": "Domain Service Using Blockchain",
     "description": "Blockchain Addresss Alias Refferer"
   }
 }

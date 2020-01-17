@@ -1,7 +1,7 @@
 {
-  "name": "basexer",
-  "version": "0.0.47",
-  "description": "The Blockchain Address service",
+  "name": "BAS",
+  "version": "0.1.0",
+  "description": "Domain Service Using Blockchain",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -11,10 +11,10 @@
     "start": "web-ext run -f",
     "start-chrome": "run-s gulp-dev dev:chrome",
     "ext": "web-ext run -f ",
+    "zip:fox": "run-s gulp-build ext-lint ext-build",
     "lint": "run-s gulp-build ",
     "ext-lint":"npx web-ext lint",
     "ext-build": "web-ext build",
-    "zip:fox": "run-s gulp-build ext-build",
     "sign:fox": "run-s gulp-dev sign-firefox",
     "sign-firefox": "env-cmd -e fox -r ./.config/.env-cmdrc web-ext sign --api-key=user:15509732:886 --api-secret=a6f947da06ad89d0fc24142bc300d4b281c65cd69c3cbed5f33f32b4108e82e0",
     "gulp-dev": "gulp dev:extension --max_old_space_size=1024",

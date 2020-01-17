@@ -14,12 +14,21 @@
 angular.module('popupApp', []).controller('PopupCtrl', ['$scope', function($s) {
   var storage = chrome.storage.local;
   $s.extVersion = getVersion()
+  $s.extName = getName()
 }]);
 
 function getVersion(){
-  let v = '0000';
+  let v = '0.0.5';
   if(browser&&browser.runtime){
     v = browser.runtime.getManifest().version
   }
   return v
+}
+
+function getName(){
+  let n = 'BAS'
+  if(browser&&browser.runtime){
+    n = browser.runtime.getManifest().name
+  }
+  return n
 }

@@ -12,6 +12,21 @@ h1,h3 {
   letter-spacing: 1.5px;
 }
 
+.ext-description {
+  font-size: 14px;
+  text-align: left;
+  text-indent: 2em;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.ext-version {
+   text-align: right;
+   font-size: 12px;
+}
+
 h1 span {
   position: relative;
   top:1px;

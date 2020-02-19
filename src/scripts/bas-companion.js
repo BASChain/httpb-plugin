@@ -32,14 +32,17 @@ async function createCompanion(opts){
 
   async function OnBeforeRequest(details) {
     try{
-      console.log('interUrl>>>',details.url)
+      console.log('Request>>>'+JSON.stringify(details,null,2))
+      console.log('incepterUrl>>>',details.url)
       //console.log(JSON.stringify(details,null,2));
       const searchData = engineHandlerInst.parseUrl(details.url,details.requestId)
       if(!searchData || !searchData.alias ||!searchData.matched) return
 
       let _alias = punycode.toASCII(searchData.alias)
+
       let queryURL = dohHandlerInst.getQueryUrl(_alias)
-      //console.log(queryURL);
+
+      console.log('BAS-DNSUrl:',dohHandlerInst.QPreUri,_alias);
 
       const response = await fetch(queryURL)
       //console.log(response);
@@ -54,6 +57,7 @@ async function createCompanion(opts){
         let reURL = engineHandlerInst.buildRedirectUrl(searchData,aliasOrIp)
 
         if(reURL){
+          console.log('BAS-RequestUrl:',reURL);
           return {redirectUrl:reURL}
         }
       }

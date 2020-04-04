@@ -38,3 +38,12 @@ npm run zip:fox
 ```bash
 node ci/git-commit.js 
 ```
+
+
+## Publish Log
+
+> 
+
+| version  |  Date  |  comments  |
+| --  |  --  | --  |
+|  v0.1.1  |  2020-4-4  |update protocol dns parse (extdns.ppn)  | 

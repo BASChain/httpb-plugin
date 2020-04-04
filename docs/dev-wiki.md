@@ -33,6 +33,8 @@
 
 ## Sources
 
+## Clear extension
+C:\Users\{username}\AppData\Roaming\Mozilla\Firefox\Profiles
 
 > .env
 

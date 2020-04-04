@@ -14,6 +14,8 @@ class DohHandler {
 
   getQueryUrl (alias){
     //punycode transfer
+    const dnsQuery = `${this.QPreUri}${alias}`
+    console.log('DNSQuery>>>',dnsQuery)
     return this.QPreUri + alias
   }
 
@@ -21,7 +23,13 @@ class DohHandler {
     if(!json || json.Status != 0)return false
 
     let origin = QuestionName(json.Question[0].name.toString())
+
     if(!json.Answer) return false;
+
+    let answer = json.Answer
+    if(isAliasName(answer)){
+      return answer[0].data
+    }
 
     let tradResults = json.Answer.filter(item => IsTraditionDomain(item))
     if(tradResults.length > 0){
@@ -35,6 +43,12 @@ class DohHandler {
   }
 }
 
+function isAliasName(answer){
+  if(!answer || !answer.length)return false;
+
+  return answer.find(item =>item.type ==10 && item.data ==='AliasName') ? true : false
+}
+
 const QuestionName = (name) => {
   return name.endsWith('.') ? name.substring(0,name.length-1) : name
 }
@@ -45,7 +59,7 @@ const IsTraditionDomain = (item) => {
 
 function _initDohHandler(opts){
   this.QSchema = 'http'
-  this.QDomain = 'dns.ppn.one'
+  this.QDomain = 'extdns.ppn.one'
   this.QPort = 8053
   this.QPreUri = `${this.QSchema}://${this.QDomain}:${this.QPort}/dns-query?name=`
   this.isMatch = (ip) =>{return IPv46Regex.test(ip)}

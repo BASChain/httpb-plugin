@@ -1,6 +1,6 @@
 'use strict'
 
-const DEF_DOH_DOMAIN = 'http://dns.ppn.one:8053/dns-query?name=nbs'
+const DEF_DOH_DOMAIN = 'http://mdns.ppn.one:8053/dns-query?name=nbs'
 const TRA_TYPE = 10
 const TRA_DATA = "TraditionSystemName"
 
@@ -59,7 +59,7 @@ const IsTraditionDomain = (item) => {
 
 function _initDohHandler(opts){
   this.QSchema = 'http'
-  this.QDomain = 'extdns.ppn.one'
+  this.QDomain = 'rdns.baschain.org'
   this.QPort = 8053
   this.QPreUri = `${this.QSchema}://${this.QDomain}:${this.QPort}/dns-query?name=`
   this.isMatch = (ip) =>{return IPv46Regex.test(ip)}

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="css/popup.css">
   <script src="vendor/angular.min.js"></script>
+  <script src="bundles/p3lib.min.js"></script>
   <script src="js/popup.js"></script>
 </head>
 <body ng-app="popupApp" ng-controller="PopupCtrl">
@@ -12,6 +13,20 @@
   <p class="ext-description d-none">
     Basexer is a plugin using blockchain ( like Ethereum ) data storage of mapping between strings and IP addresses to help user access servers
   </p>
+  <div class="network-wrapper">
+    <div class="network-dot mainnet">
+    </div>
+    <div>
+      <span>选择网络:</span>
+      <select ng-init="chainId = networks[0].value" ng-model="chainId"
+        ng-change="networkChange()"
+        ng-options="o.value as o.name for o in networks">
+      </select>
+    </div>
+
+  </div>
+  <!-- ng-options="o.value as o.name for o in networks" -->
+
   <div class="">
     <span>Version: </span><span id="extVersion">{{extVersion}}</span>
   </div>

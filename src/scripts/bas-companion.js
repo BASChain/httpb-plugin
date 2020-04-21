@@ -40,9 +40,13 @@ async function createCompanion(opts){
 
       let _alias = punycode.toASCII(searchData.alias)
 
+      let nwId = await getChainId()
+      console.log('>>>>',nwId)
+      dohHandlerInst.setQDomain(nwId)
+
       let queryURL = dohHandlerInst.getQueryUrl(_alias)
 
-      console.log('BAS-DNSUrl:',dohHandlerInst.QPreUri,_alias);
+      console.log('BAS-DNSUrl:',queryURL,_alias);
 
       const response = await fetch(queryURL)
       //console.log(response);
@@ -62,11 +66,22 @@ async function createCompanion(opts){
         }
       }
       return;
-
     }catch(err){
       throw err.message
       return
     }
+  }
+
+  async function getChainId(){
+    return new Promise((resolve,reject)=>{
+      var storageArea = chrome.storage.local;
+
+      storageArea.get({chainId:''},function(obj){
+        var chainId = obj.chainId
+        console.log('>>>>get from storage',chainId)
+        return resolve(chainId)
+      })
+    })
   }
 }
 

@@ -20,8 +20,17 @@ angular.module('popupApp', []).controller('PopupCtrl', ['$scope', function($s) {
 
   storage.get({chainId:''},function(obj){
     console.log('get from storage',obj)
-    $s.chainId = obj.chainId || $s.networks[0].value
-    $s.$apply()
+    if(!obj||!obj.chainId){
+      let defId = $s.networks[1].value
+      storage.set({chainId:defId},function(obj){
+        $s.chainId = defId
+        $s.$apply()
+      })
+    }else{
+      $s.chainId = obj.chainId
+      $s.$apply()
+    }
+
   })
 
   // if(!$s.chainId){
@@ -45,6 +54,16 @@ angular.module('popupApp', []).controller('PopupCtrl', ['$scope', function($s) {
   //$s.selectChainId = chainId
 
 }]);
+
+async function getChainId(){
+  return new Promise((resolve,reject) =>{
+    var storageArea = chrome.storage.local;
+    storage.get({chainId:network},function(obj){
+      return resolve(obj.chainId)
+    })
+  })
+}
+
 function getNetworks(){
   return [
     {value:1,name:"Mainnet",i18n:"mainnet"},

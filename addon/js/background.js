@@ -145,6 +145,10 @@ function monitorChanges(changes,namespace) {
     log('Logging settings have changed.')
     updateLogging()
   }
+
+  if(changes.chainId){
+    log('ChainId chanaged:'+changes.chainId.newValue)
+  }
 }
 
 chrome.storage.onChanged.addListener(monitorChanges)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="width: 357px;">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -9,26 +9,35 @@
   <script src="js/popup.js"></script>
 </head>
 <body ng-app="popupApp" ng-controller="PopupCtrl">
-  <h3 >{{extName}}</h3>
-  <p class="ext-description d-none">
-    Basexer is a plugin using blockchain ( like Ethereum ) data storage of mapping between strings and IP addresses to help user access servers
-  </p>
-  <div class="network-wrapper">
-    <div class="network-dot mainnet">
-    </div>
+  <div class="bas-header">
     <div>
-      <span>选择网络:</span>
-      <select ng-init="chainId = networks[0].value" ng-model="chainId"
-        ng-change="networkChange()"
-        ng-options="o.value as o.name for o in networks">
-      </select>
+      <img src="icons/png/bas-active-19.png" >
     </div>
+    <div class="networks-wrapper">
 
+      <div class="networks-select">
+        <select ng-init="chainId = networks[0].value" ng-model="chainId"
+          ng-change="networkChange()"
+          ng-options="o.value as o.name for o in networks">
+        </select>
+      </div>
+      <span class="dot-state">
+        <div ng-class="{1:'mainnet',3:'ropsten'}[chainId]"></div>
+      </span>
+    </div>
   </div>
-  <!-- ng-options="o.value as o.name for o in networks" -->
-
-  <div class="">
-    <span>Version: </span><span id="extVersion">{{extVersion}}</span>
+  <div class="bas-body">
+    <div class="inner-body">
+      <h3 style="text-align: center;">{{extName}}</h3>
+      <p class="ext-description">
+    We provide “httpb” scheme url ( like httpb://❤) to notice Bas that this url need to be interpreted to ip address according blockchain data storage. Then we can access the website by ip. You can visit http://baschain.org/ to require free BAS and ETH on Ropsten test network, then you can spend BAS to register your own domain on blockchain!
+      </p>
+    </div>
+  </div>
+  <div class="bas-footer">
+    <h6 class="text-center">
+      <span>Version: </span><span id="extVersion">{{extVersion}}</span>
+    </h6>
   </div>
 </body>
 </html>

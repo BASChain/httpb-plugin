@@ -47,3 +47,4 @@ node ci/git-commit.js
 | version  |  Date  |  comments  |
 | --  |  --  | --  |
 |  v0.1.1  |  2020-4-4  |update protocol dns parse (extdns.ppn)  | 
+|  v1.0.0  |  2020-4-21  |update protocol dns parse (extdns.ppn)  | 

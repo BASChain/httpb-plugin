@@ -45,15 +45,16 @@ C:\Users\{username}\AppData\Roaming\Mozilla\Firefox\Profiles
 #SIGN_ALGORITHM=HS256
 
 ## Remote
-REMOTE_HOST=45.76.218.20
-REMOTE_PORT=3322
-REMOTE_USER=root
-REMOTE_ENABLE=true
-REMOTE_DEST_HOME=/data/www
-REMOTE_DEST_WWW=/data/www
-SSH_KEY=vultr_nbs
-DEV_MODE=product
-SSH_PATH=d:/msys64/home/lanbery/.ssh/
+
+  REMOTE_HOST=xxx.xx.x.x
+  REMOTE_PORT=3322
+  REMOTE_USER=root
+  REMOTE_ENABLE=true
+  REMOTE_DEST_HOME=/data/www
+  REMOTE_DEST_WWW=/data/www
+  SSH_KEY=
+  DEV_MODE=product
+  SSH_PATH=d:/msys64/home/xxx
 
 # Ext Info
 EXT_NAME=

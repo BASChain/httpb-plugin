@@ -1,6 +1,6 @@
 {
   "name": "BAS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Domain Service Using Blockchain",
   "main": "index.js",
   "directories": {

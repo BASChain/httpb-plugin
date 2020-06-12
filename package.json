@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "npm run gulp-build",
-    "start": "web-ext run -f",
+    "start": "web-ext run --firefox",
     "start-chrome": "run-s gulp-dev dev:chrome",
     "ext": "web-ext run -f ",
     "zip:fox": "run-s gulp-build ext-lint ext-build",

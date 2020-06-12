@@ -1,8 +1,6 @@
-# Basexer
+# BAS
 
 > The Blockchain Address Naming Service Extensions
-
-
 
 <p>
 Please note that this Policy does not apply to information collected through third-party websites or services that you may access through the Services or that you submit to us through email, text message or other electronic message or offline.

@@ -24,7 +24,7 @@ npm start
 
 ### publishing extensions zip 
 
-  used command `zip:fox` to generate *.zip 
+  used command `zip:fox` to generate *.zip (in dist/firefox/bas-{version}.zip)
 
 ```bash 
 npm run zip:fox

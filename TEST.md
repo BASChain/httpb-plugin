@@ -20,3 +20,12 @@ npm start
 > environment variables file at .config/.env 
 
 > content contains : DEST_TARGET=firefox
+
+
+### publishing extensions zip 
+
+  used command `zip:fox` to generate *.zip 
+
+```bash 
+npm run zip:fox
+```  

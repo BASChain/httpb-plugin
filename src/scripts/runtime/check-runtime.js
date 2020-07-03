@@ -5,9 +5,9 @@
  *  / /_/ / ___ |___/ /
  * /_____/_/  |_/____/
  *
- * Copyright (c) 2019 BAS,orchid2ev
+ * Copyright (c) 2019 BAS,dAskyacc
  * E-mail :bas-fonter@gmail.com
- * git@bas:BASChain/bas-portal.git
+ * git@bas:BASChain/httpb-plugin.git
  *
  */
 

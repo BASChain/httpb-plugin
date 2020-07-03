@@ -7,7 +7,7 @@
  *
  * Copyright (c) 2019 BAS,dev-fronter
  * E-mail :dev-fronter@gmail.com
- * git@flash:BASChain/httpb-crx.git
+ * git@bas:BASChain/httpb-plugin.git
  *
  */
 'use strict'

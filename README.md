@@ -42,3 +42,5 @@
 ![](https://github.com/BASChain/httpb-plugin/blob/master/docs/images/address-httpb-protocol.png?raw=true)
 
 ** If alias in BAS ,the browser will redirect to alias IP address
+
+

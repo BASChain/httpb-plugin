@@ -40,7 +40,7 @@ C:\Users\{username}\AppData\Roaming\Mozilla\Firefox\Profiles
 
 # JWT
 #JWT_ISS=user:15509732:244
-#JWT_SECRET=5284f139129dc160536e5e2153164138e1554a0e78d34d6451a78ffa9591a7ed
+#JWT_SECRET=
 # Support HS384 HS512 PS384 ed.
 #SIGN_ALGORITHM=HS256
 
@@ -54,7 +54,6 @@ C:\Users\{username}\AppData\Roaming\Mozilla\Firefox\Profiles
   REMOTE_DEST_WWW=/data/www
   SSH_KEY=
   DEV_MODE=product
-  SSH_PATH=d:/msys64/home/xxx
 
 # Ext Info
 EXT_NAME=

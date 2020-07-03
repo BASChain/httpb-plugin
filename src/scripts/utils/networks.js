@@ -1,12 +1,12 @@
 const Networks = [
     {
       chainId:1,name:"Mainnet",
-      dns:"mdns.baschain.org",
+      dns:"extm.baschain.cn",
       enabled:true
     },
     {
       chainId:3,name:"Ropsten",
-      dns:"rdns.baschain.org",
+      dns:"extr.baschain.cn",
       enabled:true
     }
   ];

@@ -44,3 +44,13 @@
 ** If alias in BAS ,the browser will redirect to alias IP address
 
 
+## Version History
+
+|  Version  |  Date  |  Comments |
+|  ----  |  ----  |  ---- |
+|  v1.0.3  |  2020-7-3  |update protocol dns parse handle dot suffix  | 
+|  v1.0.2  |  2020-7-3  |update protocol dns parse (extm.baschain.cn)  | 
+|  v1.0.1  |  2020-6-12  |update protocol dns parse (mdns.baschain.org)  | 
+|  v1.0.0  |  2020-4-21  |update protocol dns parse | 
+|  v0.1.1  |  2020-4-4   |add alias redirect rules  | 
+|  v0.1.0  |  2020-1-17  |get redirect from DNS Server  | 

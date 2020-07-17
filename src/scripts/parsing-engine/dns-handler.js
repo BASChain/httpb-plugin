@@ -3,6 +3,7 @@
 //const DEF_DOH_DOMAIN = 'http://mdns.baschain.org:8053/dns-query?name=nbs'
 const TRA_TYPE = 10
 const TRA_DATA = "TraditionSystemName"
+const ALIAS_DATA = "AliasName"
 const Networks = require('../utils/networks.js')
 
 const IsIPv4OrIPv6 = (ip) => {
@@ -48,7 +49,7 @@ class DohHandler {
 
     let answer = json.Answer
     if(isAliasName(answer)){
-      return answer[0].data
+      return tradDomainDot(answer[0].data)
     }
 
     let tradResults = json.Answer.filter(item => IsTraditionDomain(item))
@@ -68,7 +69,7 @@ class DohHandler {
 function isAliasName(answer){
   if(!answer || !answer.length)return false;
 
-  return answer.find(item =>item.type ==10 && item.data ==='AliasName') ? true : false
+  return answer.find(item => item.type == 10 && item.data.startsWith(ALIAS_DATA)) ? true : false
 }
 
 const QuestionName = (name) => {
@@ -76,7 +77,16 @@ const QuestionName = (name) => {
 }
 
 const IsTraditionDomain = (item) => {
-  return item && item.type == TRA_TYPE && item.data == TRA_DATA
+  return item && item.type == TRA_TYPE && item.data.startsWith(TRA_DATA)
+}
+
+/**
+ * trim end dot : test. => test
+ * @param {*} name
+ */
+const tradDomainDot = (name) => {
+  if (name === undefined) return ''
+  return name.endsWith('.') ? name.substring(0, name.length - 1) : name
 }
 
 function _initDohHandler(opts){
